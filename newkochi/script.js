@@ -1,6 +1,5 @@
 // Kochi Metro Fleet Management System - JavaScript
 
-// Global state management
 const AppState = {
     currentPage: 'dashboard',
     fleetData: [],
@@ -10,7 +9,6 @@ const AppState = {
     }
 };
 
-// Sample data for demonstration
 const sampleFleetData = [
     { id: 'TS001', status: 'service-ready', mileage: 125000, lastService: '2024-01-15', route: 'Aluva-Pettah' },
     { id: 'TS002', status: 'maintenance', mileage: 98000, lastService: '2024-01-10', route: 'Aluva-Pettah' },
@@ -39,7 +37,6 @@ const sampleFleetData = [
     { id: 'TS025', status: 'service-ready', mileage: 138000, lastService: '2024-01-12', route: 'Aluva-Pettah' }
 ];
 
-// Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
     initializeApp();
     setupEventListeners();
@@ -49,35 +46,26 @@ document.addEventListener('DOMContentLoaded', function() {
     generateTrainsetTable();
 });
 
-// Initialize application
 function initializeApp() {
-    // Set initial page
     showPage('dashboard');
     
-    // Initialize mobile menu
     setupMobileMenu();
     
-    // Initialize theme
     initializeTheme();
     
-    // Add loading animation
     document.body.classList.add('fade-in');
 }
 
-// Setup event listeners
 function setupEventListeners() {
-    // Navigation
     document.querySelectorAll('.nav-item').forEach(item => {
         item.addEventListener('click', handleNavigation);
     });
     
-    // Mobile menu toggle
     const mobileToggle = document.getElementById('mobile-menu-toggle');
     if (mobileToggle) {
         mobileToggle.addEventListener('click', toggleMobileMenu);
     }
     
-    // Dashboard buttons
     const refreshBtn = document.getElementById('refresh-btn');
     if (refreshBtn) {
         refreshBtn.addEventListener('click', refreshData);
@@ -88,32 +76,26 @@ function setupEventListeners() {
         optimizeBtn.addEventListener('click', runOptimization);
     }
     
-    // Filter buttons
     document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.addEventListener('click', handleFilterChange);
     });
     
-    // Tab buttons
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.addEventListener('click', handleTabChange);
     });
     
-    // File upload
     const fileInput = document.getElementById('file-input');
     if (fileInput) {
         fileInput.addEventListener('change', handleFileUpload);
     }
     
-    // Theme selector
     const themeSelect = document.getElementById('theme-select');
     if (themeSelect) {
         themeSelect.addEventListener('change', handleThemeChange);
     }
     
-    // Window resize
     window.addEventListener('resize', handleWindowResize);
 }
-// Send WhatsApp message
 function sendWhatsAppMessage() {
     const messageInput = document.getElementById('whatsapp-message-input');
     const message = messageInput.value.trim();
@@ -126,17 +108,13 @@ function sendWhatsAppMessage() {
         return;
     }
     
-    // Simulate sending to WhatsApp
     showStatus(`Message sent to WhatsApp: <strong>"${message}"</strong>`, 'success');
     
-    // Clear input
     messageInput.value = '';
     
-    // In a real application, you would make an API call to your backend here
     simulateBackendProcessing(message);
 }
 
-// Show status message
 function showStatus(text, type) {
     const statusElement = document.getElementById('message-status');
     const statusText = document.getElementById('status-text');
@@ -146,7 +124,6 @@ function showStatus(text, type) {
     statusText.innerHTML = text;
     statusTimestamp.textContent = getCurrentTime();
     
-    // Auto-hide success messages after 5 seconds
     if (type === 'success') {
         setTimeout(() => {
             statusElement.style.opacity = '0';
@@ -158,54 +135,23 @@ function showStatus(text, type) {
     }
 }
 
-// Get current time for timestamp
 function getCurrentTime() {
     const now = new Date();
     return now.toLocaleTimeString() + ' • ' + now.toLocaleDateString();
 }
 
-// Simulate backend processing
 function simulateBackendProcessing(message) {
     console.log('Simulating backend processing for message:', message);
     
-    // In a real application, this would be an API call to your backend
-    // which would then forward the message to WhatsApp
-    
-    // Example fetch request (commented out as it requires a real backend)
-    /*
-    fetch('/api/send-to-whatsapp', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ message: message })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            showStatus('Message successfully sent to WhatsApp!', 'success');
-        } else {
-            showStatus('Failed to send message: ' + data.error, 'error');
-        }
-    })
-    .catch(error => {
-        showStatus('Network error: ' + error.message, 'error');
-    });
-    */
-}
-
-// Sync database
+  
 function syncDatabase() {
     const syncButton = document.querySelector('.upload-card .btn-outline');
     const originalText = syncButton.innerHTML;
     
-    // Show loading state
     syncButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Syncing...';
     syncButton.disabled = true;
     
-    // Simulate sync process
     setTimeout(() => {
-        // Add status item
         const statusList = document.getElementById('status-list');
         const syncItem = document.createElement('div');
         syncItem.className = 'status-item';
@@ -220,32 +166,26 @@ function syncDatabase() {
         `;
         statusList.prepend(syncItem);
         
-        // Restore button
         syncButton.innerHTML = originalText;
         syncButton.disabled = false;
         
-        // Show notification
         showNotification('Database synchronized successfully', 'success');
     }, 2500);
 }
-// Navigation handling
 function handleNavigation(e) {
     e.preventDefault();
     const page = e.currentTarget.getAttribute('data-page');
     showPage(page);
     
-    // Update active nav item
     document.querySelectorAll('.nav-item').forEach(item => {
         item.classList.remove('active');
     });
     e.currentTarget.classList.add('active');
     
-    // Close mobile menu if open
     if (AppState.isMobileMenuOpen) {
         toggleMobileMenu();
     }
 }
-// WhatsApp message functionality
 document.addEventListener('DOMContentLoaded', function() {
     const sendButton = document.getElementById('whatsapp-send-button');
     const messageInput = document.getElementById('whatsapp-message-input');
@@ -253,12 +193,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const statusText = document.getElementById('status-text');
     const statusTimestamp = document.getElementById('status-timestamp');
     
-    // Initialize send button functionality
     if (sendButton) {
         sendButton.addEventListener('click', sendWhatsAppMessage);
     }
     
-    // Allow sending message with Enter key
     if (messageInput) {
         messageInput.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
@@ -267,20 +205,16 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // File input change handler
     const fileInput = document.getElementById('file-input');
     if (fileInput) {
         fileInput.addEventListener('change', handleFileUpload);
     }
-    // WhatsApp message functionality
-
     
     function showStatus(text, type) {
         statusElement.className = 'message-status ' + type;
         statusText.innerHTML = text;
         statusTimestamp.textContent = getCurrentTime();
         
-        // Auto-hide success messages after 5 seconds
         if (type === 'success') {
             setTimeout(() => {
                 statusElement.style.opacity = '0';
@@ -300,38 +234,13 @@ document.addEventListener('DOMContentLoaded', function() {
     function simulateBackendProcessing(message) {
         console.log('Simulating backend processing for message:', message);
         
-        // In a real application, this would be an API call to your backend
-        // which would then forward the message to WhatsApp
-        
-        // Example fetch request (commented out as it requires a real backend)
-        /*
-        fetch('/api/send-to-whatsapp', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ message: message })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                showStatus('Message successfully sent to WhatsApp!', 'success');
-            } else {
-                showStatus('Failed to send message: ' + data.error, 'error');
-            }
-        })
-        .catch(error => {
-            showStatus('Network error: ' + error.message, 'error');
-        });
-        */
+       
     }
     
     function handleFileUpload(event) {
         const file = event.target.files[0];
         if (file) {
-            // Simulate file processing
             setTimeout(() => {
-                // Add a new status item
                 const statusList = document.getElementById('status-list');
                 const newStatus = document.createElement('div');
                 newStatus.className = 'status-item';
@@ -346,13 +255,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 `;
                 statusList.prepend(newStatus);
                 
-                // Show WhatsApp notification
                 showStatus(`File uploaded: <strong>"${file.name}"</strong>. Notified team via WhatsApp.`, 'success');
             }, 1500);
         }
     }
     
-    // Mobile menu toggle functionality (if needed)
     const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
     if (mobileMenuToggle) {
         mobileMenuToggle.addEventListener('click', function() {
@@ -360,20 +267,16 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
-// Show specific page
 function showPage(pageId) {
-    // Hide all pages
     document.querySelectorAll('.page').forEach(page => {
         page.classList.remove('active');
     });
     
-    // Show selected page
     const targetPage = document.getElementById(pageId);
     if (targetPage) {
         targetPage.classList.add('active');
         AppState.currentPage = pageId;
         
-        // Load page-specific data
         switch(pageId) {
             case 'dashboard':
                 updateDashboard();
@@ -391,7 +294,6 @@ function showPage(pageId) {
     }
 }
 
-// Mobile menu functionality
 function setupMobileMenu() {
     const sidebar = document.querySelector('.sidebar');
     const mobileToggle = document.getElementById('mobile-menu-toggle');
@@ -412,7 +314,6 @@ function toggleMobileMenu() {
     }
 }
 
-// Handle window resize
 function handleWindowResize() {
     const sidebar = document.querySelector('.sidebar');
     const mobileToggle = document.getElementById('mobile-menu-toggle');
@@ -423,30 +324,25 @@ function handleWindowResize() {
     }
 }
 
-// Load fleet data
 function loadFleetData() {
     AppState.fleetData = [...sampleFleetData];
 }
 
-// Update dashboard metrics
 function updateDashboard() {
     const readyCount = AppState.fleetData.filter(train => train.status === 'service-ready').length;
     const maintenanceCount = AppState.fleetData.filter(train => train.status === 'maintenance').length;
     const standbyCount = AppState.fleetData.filter(train => train.status === 'standby').length;
     const totalCount = AppState.fleetData.length;
     
-    // Update metric cards
     updateMetricCard('ready-count', `${readyCount}/${totalCount}`);
     updateMetricCard('maintenance-count', `${maintenanceCount}/${totalCount}`);
     updateMetricCard('standby-count', `${standbyCount}/${totalCount}`);
     
-    // Update progress bars
     updateProgressBar('ready-progress', (readyCount / totalCount) * 100);
     updateProgressBar('maintenance-progress', (maintenanceCount / totalCount) * 100);
     updateProgressBar('standby-progress', (standbyCount / totalCount) * 100);
 }
 
-// Update metric card
 function updateMetricCard(elementId, value) {
     const element = document.getElementById(elementId);
     if (element) {
@@ -454,7 +350,6 @@ function updateMetricCard(elementId, value) {
     }
 }
 
-// Update progress bar
 function updateProgressBar(elementId, percentage) {
     const element = document.getElementById(elementId);
     if (element) {
@@ -462,7 +357,6 @@ function updateProgressBar(elementId, percentage) {
     }
 }
 
-// Generate fleet grid
 function generateFleetGrid() {
     const fleetGrid = document.getElementById('fleet-grid');
     if (!fleetGrid) return;
@@ -475,7 +369,6 @@ function generateFleetGrid() {
     });
 }
 
-// Create fleet card
 function createFleetCard(train) {
     const card = document.createElement('div');
     card.className = `fleet-card ${train.status}`;
@@ -501,7 +394,6 @@ function createFleetCard(train) {
     return card;
 }
 
-// Get status icon
 function getStatusIcon(status) {
     const icons = {
         'service-ready': 'fas fa-check-circle',
@@ -511,7 +403,6 @@ function getStatusIcon(status) {
     return icons[status] || 'fas fa-question-circle';
 }
 
-// Get status text
 function getStatusText(status) {
     const texts = {
         'service-ready': 'Ready',
@@ -521,7 +412,6 @@ function getStatusText(status) {
     return texts[status] || 'Unknown';
 }
 
-// Generate trainset table
 function generateTrainsetTable() {
     const tableBody = document.getElementById('trainset-table-body');
     if (!tableBody) return;
@@ -534,7 +424,6 @@ function generateTrainsetTable() {
     });
 }
 
-// Create trainset table row
 function createTrainsetRow(train) {
     const row = document.createElement('tr');
     const statusIcon = getStatusIcon(train.status);
@@ -560,21 +449,17 @@ function createTrainsetRow(train) {
     return row;
 }
 
-// Handle filter changes
 function handleFilterChange(e) {
     const filter = e.currentTarget.getAttribute('data-filter');
     
-    // Update active filter button
     document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.classList.remove('active');
     });
     e.currentTarget.classList.add('active');
     
-    // Update fleet grid
     filterFleetGrid(filter);
 }
 
-// Filter fleet grid
 function filterFleetGrid(filter) {
     const fleetGrid = document.getElementById('fleet-grid');
     if (!fleetGrid) return;
@@ -590,17 +475,14 @@ function filterFleetGrid(filter) {
     });
 }
 
-// Handle tab changes
 function handleTabChange(e) {
     const tab = e.currentTarget.getAttribute('data-tab');
     
-    // Update active tab button
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.classList.remove('active');
     });
     e.currentTarget.classList.add('active');
     
-    // Show corresponding tab content
     document.querySelectorAll('.tab-content').forEach(content => {
         content.classList.remove('active');
     });
@@ -611,7 +493,6 @@ function handleTabChange(e) {
     }
 }
 
-// Refresh data
 function refreshData() {
     const refreshBtn = document.getElementById('refresh-btn');
     if (refreshBtn) {
@@ -619,7 +500,6 @@ function refreshData() {
         refreshBtn.disabled = true;
     }
     
-    // Simulate API call
     setTimeout(() => {
         loadFleetData();
         updateDashboard();
@@ -635,7 +515,6 @@ function refreshData() {
     }, 1500);
 }
 
-// Run optimization
 function runOptimization() {
     const optimizeBtn = document.getElementById('optimize-btn');
     if (optimizeBtn) {
@@ -643,7 +522,6 @@ function runOptimization() {
         optimizeBtn.disabled = true;
     }
     
-    // Simulate optimization process
     setTimeout(() => {
         if (optimizeBtn) {
             optimizeBtn.innerHTML = '<i class="fas fa-bolt"></i> Run Optimization';
@@ -655,12 +533,10 @@ function runOptimization() {
     }, 2000);
 }
 
-// Update optimization cards
 function updateOptimizationCards() {
     const optimizationCards = document.getElementById('optimization-cards');
     if (!optimizationCards) return;
     
-    // Add new optimization recommendations
     const newCard = document.createElement('div');
     newCard.className = 'optimization-card';
     newCard.innerHTML = `
@@ -676,7 +552,6 @@ function updateOptimizationCards() {
     optimizationCards.appendChild(newCard);
 }
 
-// Handle file upload
 function handleFileUpload(e) {
     const file = e.target.files[0];
     if (!file) return;
@@ -684,7 +559,6 @@ function handleFileUpload(e) {
     const statusList = document.getElementById('status-list');
     if (!statusList) return;
     
-    // Add upload status
     const statusItem = document.createElement('div');
     statusItem.className = 'status-item';
     statusItem.innerHTML = `
@@ -701,7 +575,6 @@ function handleFileUpload(e) {
     
     statusList.appendChild(statusItem);
     
-    // Simulate upload progress
     let progress = 0;
     const progressBar = statusItem.querySelector('.progress');
     
@@ -717,22 +590,18 @@ function handleFileUpload(e) {
     }, 200);
 }
 
-// Initialize charts
 function initializeCharts() {
-    // Utilization Chart
     const utilizationCanvas = document.getElementById('utilization-chart');
     if (utilizationCanvas) {
         createUtilizationChart(utilizationCanvas);
     }
     
-    // Maintenance Chart
     const maintenanceCanvas = document.getElementById('maintenance-chart');
     if (maintenanceCanvas) {
         createMaintenanceChart(maintenanceCanvas);
     }
 }
 
-// Create utilization chart
 function createUtilizationChart(canvas) {
     const ctx = canvas.getContext('2d');
     const data = {
@@ -747,11 +616,9 @@ function createUtilizationChart(canvas) {
         }]
     };
     
-    // Simple chart implementation (you can replace with Chart.js)
     drawSimpleChart(ctx, data, 'line');
 }
 
-// Create maintenance chart
 function createMaintenanceChart(canvas) {
     const ctx = canvas.getContext('2d');
     const data = {
@@ -769,7 +636,6 @@ function createMaintenanceChart(canvas) {
     drawSimpleChart(ctx, data, 'bar');
 }
 
-// Simple chart drawing function
 function drawSimpleChart(ctx, data, type) {
     const width = ctx.canvas.width;
     const height = ctx.canvas.height;
@@ -777,23 +643,20 @@ function drawSimpleChart(ctx, data, type) {
     
     ctx.clearRect(0, 0, width, height);
     
-    // Draw axes
+    
     ctx.strokeStyle = '#e2e8f0';
     ctx.lineWidth = 1;
     
-    // Y-axis
     ctx.beginPath();
     ctx.moveTo(padding, padding);
     ctx.lineTo(padding, height - padding);
     ctx.stroke();
     
-    // X-axis
     ctx.beginPath();
     ctx.moveTo(padding, height - padding);
     ctx.lineTo(width - padding, height - padding);
     ctx.stroke();
     
-    // Draw data points
     const maxValue = Math.max(...data.datasets[0].data);
     const stepX = (width - 2 * padding) / (data.labels.length - 1);
     const stepY = (height - 2 * padding) / maxValue;
@@ -812,7 +675,6 @@ function drawSimpleChart(ctx, data, type) {
             ctx.lineTo(x, y);
         }
         
-        // Draw point
         ctx.fillStyle = data.datasets[0].borderColor;
         ctx.beginPath();
         ctx.arc(x, y, 4, 0, 2 * Math.PI);
@@ -822,34 +684,25 @@ function drawSimpleChart(ctx, data, type) {
     ctx.stroke();
 }
 
-// Update planning page
 function updatePlanningPage() {
-    // Update planning criteria
     updatePlanningCriteria();
     
-    // Generate induction plan
     generateInductionPlan();
 }
-
-// Update planning criteria
 function updatePlanningCriteria() {
-    // This would typically fetch real data from an API
     console.log('Updating planning criteria...');
 }
 
-// Generate induction plan
 function generateInductionPlan() {
     const serviceTrains = AppState.fleetData.filter(train => train.status === 'service-ready');
     const standbyTrains = AppState.fleetData.filter(train => train.status === 'standby');
     const maintenanceTrains = AppState.fleetData.filter(train => train.status === 'maintenance');
     
-    // Update service trains list
     updateTrainList('service-trains', serviceTrains);
     updateTrainList('standby-trains', standbyTrains);
     updateTrainList('maintenance-trains', maintenanceTrains);
 }
 
-// Update train list
 function updateTrainList(containerId, trains) {
     const container = document.getElementById(containerId);
     if (!container) return;
@@ -875,16 +728,13 @@ function updateTrainList(containerId, trains) {
     });
 }
 
-// View trainset details
 function viewTrainsetDetails(trainId) {
     const train = AppState.fleetData.find(t => t.id === trainId);
     if (train) {
         showNotification(`Viewing details for ${trainId}`, 'info');
-        // Here you would typically open a modal or navigate to a details page
     }
 }
 
-// Theme management
 function initializeTheme() {
     const savedTheme = localStorage.getItem('theme') || 'light';
     document.documentElement.setAttribute('data-theme', savedTheme);
@@ -901,7 +751,6 @@ function handleThemeChange(e) {
     localStorage.setItem('theme', theme);
 }
 
-// Utility functions
 function formatDate(dateString) {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {
@@ -912,7 +761,6 @@ function formatDate(dateString) {
 }
 
 function showNotification(message, type = 'info') {
-    // Create notification element
     const notification = document.createElement('div');
     notification.className = `notification notification-${type}`;
     notification.innerHTML = `
@@ -925,10 +773,8 @@ function showNotification(message, type = 'info') {
         </button>
     `;
     
-    // Add to page
     document.body.appendChild(notification);
     
-    // Auto remove after 5 seconds
     setTimeout(() => {
         if (notification.parentElement) {
             notification.remove();
@@ -946,7 +792,6 @@ function getNotificationIcon(type) {
     return icons[type] || 'info-circle';
 }
 
-// Export functions for global access
 window.generateInductionPlan = generateInductionPlan;
 window.refreshData = refreshData;
 window.optimizeInduction = runOptimization;
@@ -955,7 +800,6 @@ window.exportPlan = function() {
 };
 window.viewTrainsetDetails = viewTrainsetDetails;
 
-// Add notification styles
 const notificationStyles = `
     .notification {
         position: fixed;
@@ -1013,7 +857,7 @@ const notificationStyles = `
     }
 `;
 
-// Inject notification styles
 const styleSheet = document.createElement('style');
 styleSheet.textContent = notificationStyles;
 document.head.appendChild(styleSheet);
+
