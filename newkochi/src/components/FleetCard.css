@@ -1,0 +1,58 @@
+/* Fleet Card Styles */
+.fleet-card {
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-4);
+  text-align: center;
+  transition: all var(--transition-fast);
+}
+
+.fleet-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.fleet-card.service-ready {
+  border-left: 4px solid var(--success-color);
+}
+
+.fleet-card.maintenance {
+  border-left: 4px solid var(--danger-color);
+}
+
+.fleet-card.standby {
+  border-left: 4px solid var(--warning-color);
+}
+
+.fleet-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-3);
+}
+
+.fleet-card-header h4 {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--gray-900);
+  margin: 0;
+}
+
+.fleet-card-content {
+  text-align: left;
+}
+
+.fleet-card-content p {
+  margin-bottom: var(--spacing-2);
+  font-size: var(--font-size-sm);
+  color: var(--gray-600);
+}
+
+.fleet-card-content p:last-child {
+  margin-bottom: 0;
+}
+
+.fleet-card-content strong {
+  color: var(--gray-700);
+}

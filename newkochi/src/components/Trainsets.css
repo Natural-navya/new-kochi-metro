@@ -1,0 +1,49 @@
+/* Trainsets Styles */
+.trainset-table-container {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-6);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--gray-200);
+  overflow-x: auto;
+}
+
+.trainset-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.trainset-table th,
+.trainset-table td {
+  padding: var(--spacing-4);
+  text-align: left;
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.trainset-table th {
+  background-color: var(--gray-50);
+  font-weight: 600;
+  color: var(--gray-900);
+}
+
+.trainset-table tr:hover {
+  background-color: var(--gray-50);
+}
+
+.trainset-table td:first-child {
+  font-weight: 600;
+  color: var(--gray-900);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .trainset-table-container {
+    padding: var(--spacing-4);
+  }
+  
+  .trainset-table th,
+  .trainset-table td {
+    padding: var(--spacing-2);
+    font-size: var(--font-size-sm);
+  }
+}

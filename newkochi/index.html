@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kochi Metro - Fleet Management</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-subway"></i>
+                    <div class="logo-text">
+                        <h1>Kochi Metro</h1>
+                        <p>Fleet Management & TIPS</p>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="#dashboard" class="nav-item active" data-page="dashboard">
+                    <i class="fas fa-th-large"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#planning" class="nav-item" data-page="planning">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>Induction Planning</span>
+                </a>
+                <a href="#trainsets" class="nav-item" data-page="trainsets">
+                    <i class="fas fa-train"></i>
+                    <span>Trainsets</span>
+                </a>
+                <a href="#upload" class="nav-item" data-page="upload">
+                    <i class="fas fa-upload"></i>
+                    <span>Data Upload</span>
+                </a>
+                <a href="#analytics" class="nav-item" data-page="analytics">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Analytics</span>
+                </a>
+                <a href="#settings" class="nav-item" data-page="settings">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Mobile Menu Toggle -->
+        <button class="mobile-menu-toggle" id="mobile-menu-toggle">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Page -->
+            <div id="dashboard" class="page active">
+                <div class="page-header">
+                    <h1>Fleet Management Dashboard</h1>
+                    <div class="header-actions">
+                        <button class="btn btn-outline" id="refresh-btn">
+                            <i class="fas fa-sync-alt"></i> Refresh Data
+                        </button>
+                        <button class="btn btn-primary" id="optimize-btn">
+                            <i class="fas fa-bolt"></i> Run Optimization
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Key Metrics -->
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-icon service-ready">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="metric-content">
+                            <h3 id="ready-count">18/25</h3>
+                            <p>Service Ready</p>
+                            <div class="progress-bar">
+                                <div class="progress" id="ready-progress" style="width: 72%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-icon maintenance">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                        <div class="metric-content">
+                            <h3 id="maintenance-count">4/25</h3>
+                            <p>Under Maintenance</p>
+                            <div class="progress-bar">
+                                <div class="progress maintenance" id="maintenance-progress" style="width: 16%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-icon standby">
+                            <i class="fas fa-pause-circle"></i>
+                        </div>
+                        <div class="metric-content">
+                            <h3 id="standby-count">3/25</h3>
+                            <p>Standby</p>
+                            <div class="progress-bar">
+                                <div class="progress standby" id="standby-progress" style="width: 12%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-icon kpi">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <div class="metric-content">
+                            <h3 id="kpi">99.7%</h3>
+                            <p>Punctuality KPI</p>
+                            <div class="progress-bar">
+                                <div class="progress kpi" style="width: 99.7%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Optimization Panel -->
+                <div class="optimization-panel">
+                    <div class="panel-header">
+                        <h3>Optimization Recommendations</h3>
+                        <button class="btn btn-outline" id="details-btn">
+                            <i class="fas fa-info-circle"></i> Details
+                        </button>
+                    </div>
+                    <div class="optimization-cards" id="optimization-cards">
+                        <div class="optimization-card">
+                            <div class="card-icon">
+                                <i class="fas fa-route"></i>
+                            </div>
+                            <div class="card-content">
+                                <h4>Route Optimization</h4>
+                                <p>Optimize train routes for better efficiency</p>
+                            </div>
+                        </div>
+                        <div class="optimization-card">
+                            <div class="card-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="card-content">
+                                <h4>Schedule Adjustment</h4>
+                                <p>Adjust schedules to reduce wait times</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fleet Overview -->
+                <div class="fleet-overview">
+                    <div class="section-header">
+                        <h2>Fleet Status Overview</h2>
+                        <div class="filters">
+                            <button class="filter-btn active" data-filter="all">
+                                <i class="fas fa-list"></i> All
+                            </button>
+                            <button class="filter-btn" data-filter="service-ready">
+                                <i class="fas fa-check-circle"></i> Ready
+                            </button>
+                            <button class="filter-btn" data-filter="maintenance">
+                                <i class="fas fa-tools"></i> Maintenance
+                            </button>
+                            <button class="filter-btn" data-filter="standby">
+                                <i class="fas fa-pause-circle"></i> Standby
+                            </button>
+                        </div>
+                    </div>
+                    <div class="fleet-grid" id="fleet-grid">
+                        <!-- Fleet cards will be generated here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Planning Page -->
+            <div id="planning" class="page">
+                <div class="page-header">
+                    <h1>Train Induction Planning</h1>
+                    <div class="header-actions">
+                        <button class="btn btn-primary" onclick="generateInductionPlan()">
+                            <i class="fas fa-magic"></i> Generate Plan
+                        </button>
+                        <button class="btn btn-secondary" onclick="refreshData()">
+                            <i class="fas fa-sync-alt"></i> Refresh
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Planning Criteria -->
+                <div class="planning-criteria">
+                    <h2>Planning Criteria</h2>
+                    <div class="criteria-grid">
+                        <div class="criteria-card">
+                            <div class="criteria-header">
+                                <i class="fas fa-certificate"></i>
+                                <h3>Fitness Certificates</h3>
+                            </div>
+                            <div class="criteria-content">
+                                <div class="status-item">
+                                    <span class="status-dot valid"></span>
+                                    <span>Rolling Stock: 22 Valid</span>
+                                </div>
+                                <div class="status-item">
+                                    <span class="status-dot valid"></span>
+                                    <span>Signalling: 20 Valid</span>
+                                </div>
+                                <div class="status-item">
+                                    <span class="status-dot warning"></span>
+                                    <span>Telecom: 18 Valid</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="criteria-card">
+                            <div class="criteria-header">
+                                <i class="fas fa-clipboard-list"></i>
+                                <h3>Job Card Status</h3>
+                            </div>
+                            <div class="criteria-content">
+                                <div class="status-item">
+                                    <span class="status-dot valid"></span>
+                                    <span>Closed: 20</span>
+                                </div>
+                                <div class="status-item">
+                                    <span class="status-dot warning"></span>
+                                    <span>Open: 5</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="criteria-card">
+                            <div class="criteria-header">
+                                <i class="fas fa-ad"></i>
+                                <h3>Branding Priorities</h3>
+                            </div>
+                            <div class="criteria-content">
+                                <div class="status-item">
+                                    <span class="status-dot priority"></span>
+                                    <span>High Priority: 8</span>
+                                </div>
+                                <div class="status-item">
+                                    <span class="status-dot normal"></span>
+                                    <span>Normal: 12</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="criteria-card">
+                            <div class="criteria-header">
+                                <i class="fas fa-route"></i>
+                                <h3>Mileage Balancing</h3>
+                            </div>
+                            <div class="criteria-content">
+                                <div class="status-item">
+                                    <span class="status-dot valid"></span>
+                                    <span>Balanced: 15</span>
+                                </div>
+                                <div class="status-item">
+                                    <span class="status-dot warning"></span>
+                                    <span>Needs Rotation: 10</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="criteria-card">
+                            <div class="criteria-header">
+                                <i class="fas fa-broom"></i>
+                                <h3>Cleaning Slots</h3>
+                            </div>
+                            <div class="criteria-content">
+                                <div class="status-item">
+                                    <span class="status-dot valid"></span>
+                                    <span>Available: 6</span>
+                                </div>
+                                <div class="status-item">
+                                    <span class="status-dot warning"></span>
+                                    <span>Occupied: 2</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="criteria-card">
+                            <div class="criteria-header">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <h3>Stabling Geometry</h3>
+                            </div>
+                            <div class="criteria-content">
+                                <div class="status-item">
+                                    <span class="status-dot valid"></span>
+                                    <span>Optimal: 18</span>
+                                </div>
+                                <div class="status-item">
+                                    <span class="status-dot warning"></span>
+                                    <span>Needs Shunting: 7</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Induction Plan Results -->
+                <div class="induction-results">
+                    <h2>Recommended Induction Plan</h2>
+                    <div class="plan-tabs">
+                        <button class="tab-btn active" data-tab="service">Service Ready (18)</button>
+                        <button class="tab-btn" data-tab="standby">Standby (4)</button>
+                        <button class="tab-btn" data-tab="maintenance">Maintenance (3)</button>
+                    </div>
+                    
+                    <div class="plan-content">
+                        <div id="service-tab" class="tab-content active">
+                            <div class="train-list" id="service-trains">
+                                <!-- Service ready trains will be listed here -->
+                            </div>
+                        </div>
+                        <div id="standby-tab" class="tab-content">
+                            <div class="train-list" id="standby-trains">
+                                <!-- Standby trains will be listed here -->
+                            </div>
+                        </div>
+                        <div id="maintenance-tab" class="tab-content">
+                            <div class="train-list" id="maintenance-trains">
+                                <!-- Maintenance trains will be listed here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trainsets Page -->
+            <div id="trainsets" class="page">
+                <div class="page-header">
+                    <h1>Trainset Management</h1>
+                    <div class="header-actions">
+                        <button class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Add Trainset
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="trainset-table-container">
+                    <table class="trainset-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Status</th>
+                                <th>Mileage</th>
+                                <th>Last Service</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="trainset-table-body">
+                            <!-- Table rows will be generated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Upload Page -->
+            <div id="upload" class="page">
+                <div class="page-header">
+                    <h1>Data Upload</h1>
+                </div>
+                
+                <div class="upload-section">
+                    <div class="upload-cards">
+                        <div class="upload-card">
+                            <div class="upload-icon">
+                                <i class="fas fa-file-excel"></i>
+                            </div>
+                            <h3>Upload CSV</h3>
+                            <p>Select a CSV file to upload trainset data</p>
+                            <label class="btn btn-primary">
+                                <input type="file" id="file-input" accept=".csv" style="display: none;">
+                                <i class="fas fa-upload"></i> Choose File
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="upload-status">
+                        <h3>Upload Status</h3>
+                        <div class="status-list" id="status-list">
+                            <!-- Status items will be generated here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+<!-- Add this to your upload page -->
+<div class="whatsapp-message-box">
+    <h2><i class="fab fa-whatsapp"></i> Send WhatsApp Message</h2>
+    
+    <div class="message-input-container">
+        <input type="text" id="whatsapp-message-input" placeholder="Type your message here...">
+        <button id="whatsapp-send-button">
+            <i class="fab fa-whatsapp"></i> Send
+        </button>
+    </div>
+    
+    <div class="message-status" id="message-status">
+        <p id="status-text"></p>
+        <div class="timestamp" id="status-timestamp"></div>
+    </div>
+</div>
+        
+
+            <!-- Analytics Page -->
+            <div id="analytics" class="page">
+                <div class="page-header">
+                    <h1>Analytics & Reports</h1>
+                </div>
+                
+                <div class="analytics-grid">
+                    <div class="chart-card">
+                        <h3>Fleet Utilization</h3>
+                        <canvas id="utilization-chart"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Maintenance Trends</h3>
+                        <canvas id="maintenance-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Page -->
+            <div id="settings" class="page">
+                <div class="page-header">
+                    <h1>Settings</h1>
+                </div>
+                
+                <div class="settings-grid">
+                    <div class="settings-card">
+                        <h3>User Preferences</h3>
+                        <div class="setting-item">
+                            <label for="theme-select">Theme:</label>
+                            <select id="theme-select">
+                                <option value="light" selected>Light</option>
+                                <option value="dark">Dark</option>
+                                <option value="system">System Default</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-card">
+                        <h3>Notification Preferences</h3>
+                        <div class="setting-item">
+                            <label>
+                                <input type="checkbox" id="email-notifications" checked>
+                                Email Notifications
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <label>
+                                <input type="checkbox" id="sms-notifications">
+                                SMS Notifications
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
